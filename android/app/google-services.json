@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "910950022925",
+    "firebase_url": "https://ambulance-online-eeff8-default-rtdb.firebaseio.com",
+    "project_id": "ambulance-online-eeff8",
+    "storage_bucket": "ambulance-online-eeff8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910950022925:android:1a8dfc01f859222df57a44",
+        "android_client_info": {
+          "package_name": "com.yusrilmym.driverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910950022925-u84p66a75s05s9p3vitbm8h807ken9h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0QTRQZOAG1IAyQWud_CgVSQ7SuFnb53E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910950022925-u84p66a75s05s9p3vitbm8h807ken9h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910950022925:android:4a73d760b2ca60fff57a44",
+        "android_client_info": {
+          "package_name": "com.yusrilmym.usersapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910950022925-u84p66a75s05s9p3vitbm8h807ken9h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0QTRQZOAG1IAyQWud_CgVSQ7SuFnb53E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910950022925-u84p66a75s05s9p3vitbm8h807ken9h6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
