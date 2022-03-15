@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:users_app/assistans/assistant_methods.dart';
 import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
 
@@ -18,6 +19,12 @@ class _MainScreenState extends State<MainScreen> {
     target: LatLng(-6.473272, 106.831616),
     zoom: 14.4746,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    AssistantMethods.readCurrentOnlineUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
