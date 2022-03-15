@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 10,
               ),
               const Text(
-                "Login Supir Ambulance",
+                "Login Penumpang Ambulance",
                 style: TextStyle(
                   fontSize: 26,
                   color: Colors.grey,
