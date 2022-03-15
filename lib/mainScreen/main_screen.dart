@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:users_app/assistans/assistant_methods.dart';
 import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
+import 'package:users_app/widgets/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,12 +24,16 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    AssistantMethods.readCurrentOnlineUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      drawer: MyDrawer(
+        name: userModelCurrentInfo!.name,
+        email: userModelCurrentInfo!.email,
+      ),
       body: Stack(
         children: [
           GoogleMap(
