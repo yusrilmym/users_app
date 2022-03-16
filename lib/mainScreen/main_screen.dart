@@ -29,7 +29,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       drawer: MyDrawer(
         name: userModelCurrentInfo!.name,
         email: userModelCurrentInfo!.email,
@@ -44,6 +43,17 @@ class _MainScreenState extends State<MainScreen> {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
             },
+          ),
+          //custom humburger button for drawer
+          Positioned(
+            top: 36,
+            left: 22,
+            child: GestureDetector(
+              onTap: () {},
+              child: CircleAvatar(
+                child: Icon(Icons.menu),
+              ),
+            ),
           )
         ],
       ),
