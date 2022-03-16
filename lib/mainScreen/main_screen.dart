@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:users_app/assistans/assistant_methods.dart';
 import 'package:users_app/authentication/login_screen.dart';
@@ -23,6 +24,22 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
   double searchLocationContainerHeight = 220.0;
+  Position? userCurrentPosition;
+  var geoLocator = Geolocator();
+
+  locateUserPosition() async {
+    Position cPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    userCurrentPosition = cPosition;
+
+    LatLng latLngPosition =
+        LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 14);
+
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   @override
   void initState() {
@@ -50,10 +67,14 @@ class _MainScreenState extends State<MainScreen> {
           GoogleMap(
             mapType: MapType.normal,
             myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+
+              locateUserPosition();
             },
           ),
           //custom humburger button for drawer
@@ -94,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //from location
                       Row(
@@ -180,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
                             primary: Colors.green,
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                      )
+                      ),
                     ],
                   ),
                 ),

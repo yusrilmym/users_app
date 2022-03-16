@@ -39,6 +39,7 @@ dependencies:
   firebase_database: ^9.0.5
   fluttertoast: ^8.0.9
   google_maps_flutter: ^2.1.2
+  geolocator: ^8.2.0
   
 
 dev_dependencies:

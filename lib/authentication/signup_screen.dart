@@ -63,9 +63,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "email": emailTextEditingController.text.trim(),
         "phone": phoneTextEditingController.text.trim(),
       };
-      DatabaseReference driversRef =
+      DatabaseReference reference =
           FirebaseDatabase.instance.ref().child("users");
-      driversRef.child(firebaseUser.uid).set(userMap);
+      reference.child(firebaseUser.uid).set(userMap);
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Akun sudah dibuat.");
       Navigator.push(
