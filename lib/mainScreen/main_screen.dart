@@ -21,6 +21,8 @@ class _MainScreenState extends State<MainScreen> {
     zoom: 14.4746,
   );
 
+  GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: sKey,
       drawer: MyDrawer(
         name: userModelCurrentInfo!.name,
         email: userModelCurrentInfo!.email,
@@ -46,12 +49,18 @@ class _MainScreenState extends State<MainScreen> {
           ),
           //custom humburger button for drawer
           Positioned(
-            top: 36,
-            left: 22,
+            top: 30,
+            left: 18,
             child: GestureDetector(
-              onTap: () {},
-              child: CircleAvatar(
-                child: Icon(Icons.menu),
+              onTap: () {
+                sKey.currentState!.openDrawer();
+              },
+              child: const CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Icon(
+                  Icons.menu,
+                  color: Colors.black54,
+                ),
               ),
             ),
           )

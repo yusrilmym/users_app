@@ -26,7 +26,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   children: [
                     const Icon(
                       Icons.person,
-                      size: 40,
+                      size: 80,
                       color: Colors.grey,
                     ),
                     const SizedBox(
@@ -41,6 +41,9 @@ class _MyDrawerState extends State<MyDrawer> {
                               fontSize: 16,
                               color: Colors.grey,
                               fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Text(
                           widget.email.toString(),
