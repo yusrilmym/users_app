@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   );
 
   GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
+  double searchLocationContainerHeight = 220.0;
 
   @override
   void initState() {
@@ -71,7 +72,121 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-          )
+          ),
+
+          //ui for searching location
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedSize(
+              curve: Curves.easeIn,
+              duration: const Duration(milliseconds: 120),
+              child: Container(
+                height: searchLocationContainerHeight,
+                decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    )),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //from location
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.add_location_alt_outlined,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Dari",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              Text(
+                                "Lokasi Anda Terakhir",
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      //to location
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.add_location_alt_outlined,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Ke",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              Text(
+                                "Cari Lokasi Tujuan Anda",
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+
+                      ElevatedButton(
+                        child: const Text("Permintaan Jalan"),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            textStyle: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
