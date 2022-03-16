@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   var geoLocator = Geolocator();
 
   LocationPermission? _locationPermission;
+  double BottomPaddingOfMap = 0;
 
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
@@ -77,6 +78,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            padding: EdgeInsets.only(bottom: BottomPaddingOfMap),
             mapType: MapType.normal,
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
@@ -85,6 +87,10 @@ class _MainScreenState extends State<MainScreen> {
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+
+              setState(() {
+                BottomPaddingOfMap = 245;
+              });
 
               locateUserPosition();
             },
