@@ -50,6 +50,11 @@ class _MainScreenState extends State<MainScreen> {
 
     newGoogleMapController!
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String humanReadableAddress =
+        await AssistantMethods.searchAddressForGeographicCoOrdinates(
+            userCurrentPosition!);
+    print("this is your address = " + humanReadableAddress);
   }
 
   @override
