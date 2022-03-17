@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:users_app/assistans/request_assistant.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/global/map_key.dart';
+import 'package:users_app/models/directions.dart';
 import 'package:users_app/models/user_model.dart';
 
 class AssistantMethods {
@@ -15,6 +16,11 @@ class AssistantMethods {
     var requestResponse = await RequestAssistant.receiveRequest(apiUrl);
     if (requestResponse != "Error Occured, failed. No Response") {
       humanReadableAddress = requestResponse["results"][0]["formatted_address"];
+
+      Directions userPickUpAddress = Directions();
+      userPickUpAddress.locationLatitude = position.latitude;
+      userPickUpAddress.locationLongitude = position.longitude;
+      userPickUpAddress.locationName = humanReadableAddress;
     }
 
     return humanReadableAddress;
