@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:users_app/assistans/request_assistant.dart';
 import 'package:users_app/global/map_key.dart';
+import 'package:users_app/models/predicted_places.dart';
+import 'package:users_app/widgets/place_prediction_tile.dart';
 
 class SearchPlacesScreen extends StatefulWidget {
   const SearchPlacesScreen({Key? key}) : super(key: key);
@@ -10,6 +12,8 @@ class SearchPlacesScreen extends StatefulWidget {
 }
 
 class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
+  List<PredictedPlaces> placesPredictedList = [];
+
   void findPlaceAutoCompleteSearch(String inputText) async {
     if (inputText.length > 1) {
       String urlAutoCompleteSearch =
@@ -22,8 +26,20 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
         return;
       }
 
-      print("this is response/result: ");
-      print(responseAutoCompleteSearch);
+      // print("this is response/result: ");
+      // print(responseAutoCompleteSearch);
+
+      if (responseAutoCompleteSearch["status"] == "OK") {
+        var placePredictions = responseAutoCompleteSearch["predictions"];
+
+        var placePredictionsList = (placePredictions as List)
+            .map((jsonData) => PredictedPlaces.fromJson(jsonData))
+            .toList();
+
+        setState(() {
+          placesPredictedList = placePredictionsList;
+        });
+      }
     }
   }
 
@@ -33,6 +49,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
+          //search place ui
           Container(
             height: 180,
             decoration: const BoxDecoration(color: Colors.black54, boxShadow: [
@@ -106,7 +123,27 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                 ],
               ),
             ),
-          )
+          ),
+          //display place prediction result
+          (placesPredictedList.length > 0)
+              ? Expanded(
+                  child: ListView.separated(
+                      itemCount: placesPredictedList.length,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return PlacePredictionTileDesign(
+                          predictedPlaces: placesPredictedList[index],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          height: 1,
+                          color: Colors.grey,
+                          thickness: 1,
+                        );
+                      }),
+                )
+              : Container(),
         ],
       ),
     );
