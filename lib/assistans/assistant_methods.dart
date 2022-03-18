@@ -1,15 +1,19 @@
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:users_app/assistans/request_assistant.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/global/map_key.dart';
+import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/models/directions.dart';
 import 'package:users_app/models/user_model.dart';
 
 class AssistantMethods {
   static Future<String> searchAddressForGeographicCoOrdinates(
-      Position position) async {
+      Position position, context) async {
     String apiUrl =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
     String humanReadableAddress = "";
@@ -21,6 +25,9 @@ class AssistantMethods {
       userPickUpAddress.locationLatitude = position.latitude;
       userPickUpAddress.locationLongitude = position.longitude;
       userPickUpAddress.locationName = humanReadableAddress;
+
+      Provider.of<AppInfo>(context, listen: false)
+          .updatePickUpLocationAddress(userPickUpAddress);
     }
 
     return humanReadableAddress;

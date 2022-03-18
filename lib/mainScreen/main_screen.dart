@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:users_app/assistans/assistant_methods.dart';
 import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
+import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -53,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
 
     String humanReadableAddress =
         await AssistantMethods.searchAddressForGeographicCoOrdinates(
-            userCurrentPosition!);
+            userCurrentPosition!, context);
     print("this is your address = " + humanReadableAddress);
   }
 
@@ -159,7 +161,13 @@ class _MainScreenState extends State<MainScreen> {
                                     TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                               Text(
-                                "Lokasi Anda Terakhir",
+                                Provider.of<AppInfo>(context)
+                                            .userPickUpLocation !=
+                                        null
+                                    ? Provider.of<AppInfo>(context)
+                                        .userPickUpLocation!
+                                        .locationName!
+                                    : "Tidak mendapat alamat",
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 14),
                               ),
