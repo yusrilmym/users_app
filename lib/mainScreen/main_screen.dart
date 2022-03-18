@@ -164,9 +164,11 @@ class _MainScreenState extends State<MainScreen> {
                                 Provider.of<AppInfo>(context)
                                             .userPickUpLocation !=
                                         null
-                                    ? Provider.of<AppInfo>(context)
-                                        .userPickUpLocation!
-                                        .locationName!
+                                    ? (Provider.of<AppInfo>(context)
+                                                .userPickUpLocation!
+                                                .locationName!)
+                                            .substring(0, 40) +
+                                        "..."
                                     : "Tidak mendapat alamat",
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 14),
