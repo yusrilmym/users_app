@@ -10,6 +10,7 @@ import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/mainScreen/search_places_screen.dart';
 import 'package:users_app/widgets/my_drawer.dart';
+import 'package:users_app/widgets/progress_dialog.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -191,15 +192,16 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       //to location
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           //search place screen
-                          var responseFromSearchScreen = Navigator.push(
+                          var responseFromSearchScreen = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (c) => SearchPlacesScreen()));
 
                           if (responseFromSearchScreen == "obtainedDropOff") {
                             //draw routes - draw polyline
+                            await drawPolyLineFromSourceToDestination();
                           }
                           ;
                         },
@@ -265,5 +267,33 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
+  }
+
+  //kelima
+  Future<void> drawPolyLineFromSourceToDestination() async {
+    var sourcePosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation;
+    var destinationPosition =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
+
+    var sourceLatLng = LatLng(
+        sourcePosition!.locationLatitude!, sourcePosition.locationLongitude!);
+    var destinationLatLng = LatLng(destinationPosition!.locationLatitude!,
+        destinationPosition.locationLongitude!);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ProgressDialog(
+              message: "Mohon ditunggu....",
+            ));
+
+    var directionDetailsInfo =
+        await AssistantMethods.obtainOriginToDestinationDirectionDetail(
+            sourceLatLng, destinationLatLng);
+
+    Navigator.pop(context);
+
+    print("These are points = ");
+    print(directionDetailsInfo!.e_points!);
   }
 }
