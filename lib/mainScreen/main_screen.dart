@@ -193,10 +193,15 @@ class _MainScreenState extends State<MainScreen> {
                       GestureDetector(
                         onTap: () {
                           //search place screen
-                          Navigator.push(
+                          var responseFromSearchScreen = Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (c) => SearchPlacesScreen()));
+
+                          if (responseFromSearchScreen == "obtainedDropOff") {
+                            //draw routes - draw polyline
+                          }
+                          ;
                         },
                         child: Row(
                           children: [
@@ -216,7 +221,13 @@ class _MainScreenState extends State<MainScreen> {
                                       color: Colors.grey, fontSize: 12),
                                 ),
                                 Text(
-                                  "Cari Lokasi Tujuan Anda",
+                                  Provider.of<AppInfo>(context)
+                                              .userDropOffLocation !=
+                                          null
+                                      ? Provider.of<AppInfo>(context)
+                                          .userDropOffLocation!
+                                          .locationName!
+                                      : "Cari Lokasi Tujuan Anda",
                                   style: const TextStyle(
                                       color: Colors.grey, fontSize: 14),
                                 ),

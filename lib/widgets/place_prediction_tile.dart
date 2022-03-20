@@ -1,6 +1,10 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:users_app/assistans/request_assistant.dart';
 import 'package:users_app/global/map_key.dart';
+import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/models/directions.dart';
 import 'package:users_app/models/predicted_places.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
@@ -23,6 +27,8 @@ class PlacePredictionTileDesign extends StatelessWidget {
     var responseApi =
         await RequestAssistant.receiveRequest(placeDirectionDetailsUrl);
 
+    Navigator.pop(context);
+
     if (responseApi == "Error Occured, failed. No Response") {
       return;
     }
@@ -40,6 +46,11 @@ class PlacePredictionTileDesign extends StatelessWidget {
       // print("\nlocation name =" + directions.locationName!);
       // print("\nlocation Lat =" + directions.locationLatitude!.toString());
       // print("\nlocation Lang =" + directions.locationLongitude!.toString());
+      //get data
+      Provider.of<AppInfo>(context, listen: false)
+          .updateDropOffLocationAddress(directions);
+
+      Navigator.pop(context, "obtainedDropOff");
     }
   }
 
