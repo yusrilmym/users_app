@@ -201,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
 
                           if (responseFromSearchScreen == "obtainedDropOff") {
                             //draw routes - draw polyline
-                            await drawPolyLineFromSourceToDestination();
+                            await drawPolyLineFromOriginToDestination();
                           }
                           ;
                         },
@@ -270,14 +270,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   //kelima
-  Future<void> drawPolyLineFromSourceToDestination() async {
-    var sourcePosition =
+  Future<void> drawPolyLineFromOriginToDestination() async {
+    var originPosition =
         Provider.of<AppInfo>(context, listen: false).userPickUpLocation;
     var destinationPosition =
         Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
 
-    var sourceLatLng = LatLng(
-        sourcePosition!.locationLatitude!, sourcePosition.locationLongitude!);
+    var originLatLng = LatLng(
+        originPosition!.locationLatitude!, originPosition.locationLongitude!);
     var destinationLatLng = LatLng(destinationPosition!.locationLatitude!,
         destinationPosition.locationLongitude!);
 
@@ -289,7 +289,7 @@ class _MainScreenState extends State<MainScreen> {
 
     var directionDetailsInfo =
         await AssistantMethods.obtainOriginToDestinationDirectionDetail(
-            sourceLatLng, destinationLatLng);
+            originLatLng, destinationLatLng);
 
     Navigator.pop(context);
 
