@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -44,6 +45,9 @@ class _MainScreenState extends State<MainScreen> {
 
   String userName = "Nama Kamu";
   String userEmail = "Email Kamu";
+
+  //cencel1
+  bool openNavigationDrawer = true;
 
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
@@ -127,12 +131,19 @@ class _MainScreenState extends State<MainScreen> {
             left: 18,
             child: GestureDetector(
               onTap: () {
-                sKey.currentState!.openDrawer();
+                //cencel4
+                if (openNavigationDrawer) {
+                  sKey.currentState!.openDrawer();
+                } else {
+                  //restart-refresg-minimize app progmatically
+                  SystemNavigator.pop();
+                }
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.menu,
+                  //cencel3
+                  openNavigationDrawer ? Icons.menu : Icons.close,
                   color: Colors.black54,
                 ),
               ),
@@ -217,6 +228,11 @@ class _MainScreenState extends State<MainScreen> {
                                   builder: (c) => SearchPlacesScreen()));
 
                           if (responseFromSearchScreen == "obtainedDropOff") {
+                            //cencel2
+                            setState(() {
+                              openNavigationDrawer = false;
+                            });
+
                             //draw routes - draw polyline
                             await drawPolyLineFromOriginToDestination();
                           }
