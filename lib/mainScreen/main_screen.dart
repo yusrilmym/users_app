@@ -42,6 +42,9 @@ class _MainScreenState extends State<MainScreen> {
   Set<Marker> markersSet = {};
   Set<Circle> circleSet = {};
 
+  String userName = "Nama Kamu";
+  String userEmail = "Email Kamu";
+
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
 
@@ -67,6 +70,9 @@ class _MainScreenState extends State<MainScreen> {
         await AssistantMethods.searchAddressForGeographicCoOrdinates(
             userCurrentPosition!, context);
     print("this is your address = " + humanReadableAddress);
+
+    userName = userModelCurrentInfo!.name!;
+    userEmail = userModelCurrentInfo!.email!;
   }
 
   @override
@@ -87,8 +93,8 @@ class _MainScreenState extends State<MainScreen> {
             canvasColor: Colors.black,
           ),
           child: MyDrawer(
-            name: userModelCurrentInfo!.name,
-            email: userModelCurrentInfo!.email,
+            name: userName,
+            email: userEmail,
           ),
         ),
       ),
