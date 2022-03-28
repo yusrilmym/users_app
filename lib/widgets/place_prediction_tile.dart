@@ -44,6 +44,7 @@ class PlacePredictionTileDesign extends StatelessWidget {
       // print("\nlocation name =" + directions.locationName!);
       // print("\nlocation Lat =" + directions.locationLatitude!.toString());
       // print("\nlocation Lang =" + directions.locationLongitude!.toString());
+
       //get data
       Provider.of<AppInfo>(context, listen: false)
           .updateDropOffLocationAddress(directions);
