@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,6 +12,7 @@ import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/mainScreen/search_places_screen.dart';
+import 'package:users_app/models/active_nearby_available_drivers.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
 
@@ -421,6 +423,40 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       circleSet.add(originCircle);
       circleSet.add(destinationCircle);
+    });
+  }
+
+  initializeGeofireListener() {
+    Geofire.initialize("activeDrivers");
+    //5 kilometer yang aktif
+    Geofire.queryAtLocation(
+            userCurrentPosition!.latitude, userCurrentPosition!.longitude, 10)!
+        .listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        switch (callBack) {
+          case Geofire.onKeyEntered:
+            ActiveNearbyAvailableDrivers activeNearbyAvailableDrivers =
+                ActiveNearbyAvailableDrivers();
+            map['latitude'];
+            map['longitude'];
+            map['key'];
+            break;
+
+          case Geofire.onKeyExited:
+            break;
+
+          case Geofire.onKeyMoved:
+            break;
+
+          case Geofire.onGeoQueryReady:
+            break;
+        }
+      }
+
+      setState(() {});
     });
   }
 }
