@@ -51,6 +51,8 @@ class _MainScreenState extends State<MainScreen> {
 
   //cencel1
   bool openNavigationDrawer = true;
+  bool activeNearbyDriverKeysLoaded = false;
+  BitmapDescriptor? activeNearbyIcon;
 
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
@@ -80,6 +82,8 @@ class _MainScreenState extends State<MainScreen> {
 
     userName = userModelCurrentInfo!.name!;
     userEmail = userModelCurrentInfo!.email!;
+
+    initializeGeofireListener();
   }
 
   @override
@@ -91,6 +95,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    createActiveNearByDriverIconMarker();
     return Scaffold(
       key: sKey,
       drawer: Container(
@@ -447,6 +452,9 @@ class _MainScreenState extends State<MainScreen> {
             activeNearbyAvailableDriver.driverId = map['key'];
             GeoFireAssistant.activeNearbyAvailableDriversList
                 .add(activeNearbyAvailableDriver);
+            if (activeNearbyDriverKeysLoaded == true) {
+              displayActiveDriversOnUsersMap();
+            }
             break;
 
           //whenever any driver become non-active/offline
@@ -462,10 +470,12 @@ class _MainScreenState extends State<MainScreen> {
             activeNearbyAvailableDriver.driverId = map['key'];
             GeoFireAssistant.updateActiveNearbyAvailableDriverLocation(
                 activeNearbyAvailableDriver);
+            displayActiveDriversOnUsersMap();
             break;
 
           //display those online/active drivers on users map
           case Geofire.onGeoQueryReady:
+            activeNearbyDriverKeysLoaded = true;
             displayActiveDriversOnUsersMap();
             break;
         }
@@ -490,8 +500,7 @@ class _MainScreenState extends State<MainScreen> {
         Marker marker = Marker(
           markerId: MarkerId(eachDriver.driverId!),
           position: eachDriverActivePosition,
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          icon: activeNearbyIcon!,
           rotation: 360,
         );
 
@@ -502,5 +511,17 @@ class _MainScreenState extends State<MainScreen> {
         markersSet = driversMarkerSet;
       });
     });
+  }
+
+  createActiveNearByDriverIconMarker() {
+    if (activeNearbyIcon == null) {
+      ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: const Size(2, 2));
+      BitmapDescriptor.fromAssetImage(
+              imageConfiguration, "images/ambulance.png")
+          .then((value) {
+        activeNearbyIcon = value;
+      });
+    }
   }
 }
