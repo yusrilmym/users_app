@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'package:users_app/assistans/geofire_assistant.dart';
 import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
+import 'package:users_app/main.dart';
 import 'package:users_app/mainScreen/search_places_screen.dart';
 import 'package:users_app/models/active_nearby_available_drivers.dart';
 import 'package:users_app/widgets/my_drawer.dart';
@@ -54,6 +56,8 @@ class _MainScreenState extends State<MainScreen> {
   bool activeNearbyDriverKeysLoaded = false;
   BitmapDescriptor? activeNearbyIcon;
 
+  List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
+
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
 
@@ -91,6 +95,36 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     checkIfLocationPermissionAllowed();
+  }
+
+  saveRideRequestInformation() {
+    //save the ride request information
+
+    onlineNearByAvailableDriversList =
+        GeoFireAssistant.activeNearbyAvailableDriversList;
+    searchNearestOnlineDrivers();
+  }
+
+  searchNearestOnlineDrivers() async {
+    if (onlineNearByAvailableDriversList.length == 0) {
+      //cancel/delete the ride request information
+
+      setState(() {
+        polyLineSet.clear();
+        markersSet.clear();
+        circleSet.clear();
+        pLineCoOrdinatesList.clear();
+      });
+      Fluttertoast.showToast(
+          msg:
+              "Tidak ada ambulan terdekat yang tersedia. Cari kembali nanti, Restart App sekarang...");
+
+      Future.delayed(const Duration(milliseconds: 4000), () {
+        MyApp.restartApp(context);
+      });
+
+      return;
+    }
   }
 
   @override
@@ -293,7 +327,16 @@ class _MainScreenState extends State<MainScreen> {
 
                       ElevatedButton(
                         child: const Text("Permintaan Jalan"),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (Provider.of<AppInfo>(context, listen: false)
+                                  .userDropOffLocation !=
+                              null) {
+                            saveRideRequestInformation();
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Tolong pilih alamat tujuan");
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             primary: Colors.green,
                             textStyle: const TextStyle(
