@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
@@ -106,6 +107,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   searchNearestOnlineDrivers() async {
+    //no active driver available
     if (onlineNearByAvailableDriversList.length == 0) {
       //cancel/delete the ride request information
 
@@ -124,6 +126,22 @@ class _MainScreenState extends State<MainScreen> {
       });
 
       return;
+    }
+    //active driver Drivers
+    await retriveOnlineDriversInformation(onlineNearByAvailableDriversList);
+  }
+
+  retriveOnlineDriversInformation(List onlineNearestDriversList) async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref().child("drivers");
+    for (int i = 0; i < onlineNearestDriversList.length; i++) {
+      await ref
+          .child(onlineNearestDriversList[i].key.toString())
+          .once()
+          .then((DataSnapshot) {
+        var driverKeyInfo = DataSnapshot.snapshot.value;
+        dList.add(driverKeyInfo);
+        print("driver key Information = " + dList.toString());
+      });
     }
   }
 
